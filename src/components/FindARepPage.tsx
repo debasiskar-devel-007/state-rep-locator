@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Card } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { USAMap } from './USAMap';
+import { USAMapComponent } from './USAMap';
 import { ContactInfo } from './ContactInfo';
 import { Phone, Mail, MapPin } from 'lucide-react';
 
@@ -259,7 +259,7 @@ export const FindARepPage: React.FC = () => {
           {/* Right Panel - USA Map */}
           <div className="order-1 lg:order-2">
             <Card className="p-6">
-              <USAMap 
+              <USAMapComponent 
                 selectedState={selectedState}
                 onStateSelect={setSelectedState}
                 availableStates={Object.keys(stateData)}
