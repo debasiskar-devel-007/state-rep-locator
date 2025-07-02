@@ -47,86 +47,134 @@ const defaultContact = {
   ]
 };
 
-const stateData: Record<string, StateData> = {
-  'TX': {
-    reps: [
-      {
-        name: 'John Smith',
-        phone: '+1-713-555-0123',
-        email: 'john.smith@company.com',
-        territory: 'East Texas'
-      },
-      {
-        name: 'Sarah Johnson',
-        phone: '+1-214-555-0456',
-        email: 'sarah.johnson@company.com',
-        territory: 'North Texas'
-      }
-    ],
-    warehouses: [
-      {
-        name: 'Houston Distribution Center',
-        address: '6200 Savoy Drive Suite 750',
-        city: 'Houston',
-        state: 'TX',
-        zip: '77036',
-        phone: '+1-713-555-0100',
-        manager: 'Mike Rodriguez'
-      },
-      {
-        name: 'Dallas Warehouse',
-        address: '1234 Industrial Blvd',
-        city: 'Dallas',
-        state: 'TX',
-        zip: '75201',
-        phone: '+1-214-555-0200',
-        manager: 'Lisa Chen'
-      }
-    ]
-  },
-  'CA': {
-    reps: [
-      {
-        name: 'David Wilson',
-        phone: '+1-415-555-0789',
-        email: 'david.wilson@company.com',
-        territory: 'Northern California'
-      }
-    ],
-    warehouses: [
-      {
-        name: 'Los Angeles Warehouse',
-        address: '5678 Commerce Way',
-        city: 'Los Angeles',
-        state: 'CA',
-        zip: '90001',
-        phone: '+1-213-555-0300',
-        manager: 'Carlos Martinez'
-      }
-    ]
-  },
-  'NY': {
-    reps: [
-      {
-        name: 'Emily Davis',
-        phone: '+1-212-555-0321',
-        email: 'emily.davis@company.com',
-        territory: 'New York Metro'
-      }
-    ],
-    warehouses: [
-      {
-        name: 'New York Distribution',
-        address: '9876 Queens Blvd',
-        city: 'Queens',
-        state: 'NY',
-        zip: '11101',
-        phone: '+1-212-555-0400',
-        manager: 'Robert Kim'
-      }
-    ]
-  }
+const generateStateData = (): Record<string, StateData> => {
+  const allStates = [
+    'AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA',
+    'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MD',
+    'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ',
+    'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC',
+    'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY'
+  ];
+
+  const stateNames = {
+    'AL': 'Alabama', 'AK': 'Alaska', 'AZ': 'Arizona', 'AR': 'Arkansas', 'CA': 'California',
+    'CO': 'Colorado', 'CT': 'Connecticut', 'DE': 'Delaware', 'FL': 'Florida', 'GA': 'Georgia',
+    'HI': 'Hawaii', 'ID': 'Idaho', 'IL': 'Illinois', 'IN': 'Indiana', 'IA': 'Iowa',
+    'KS': 'Kansas', 'KY': 'Kentucky', 'LA': 'Louisiana', 'ME': 'Maine', 'MD': 'Maryland',
+    'MA': 'Massachusetts', 'MI': 'Michigan', 'MN': 'Minnesota', 'MS': 'Mississippi', 'MO': 'Missouri',
+    'MT': 'Montana', 'NE': 'Nebraska', 'NV': 'Nevada', 'NH': 'New Hampshire', 'NJ': 'New Jersey',
+    'NM': 'New Mexico', 'NY': 'New York', 'NC': 'North Carolina', 'ND': 'North Dakota', 'OH': 'Ohio',
+    'OK': 'Oklahoma', 'OR': 'Oregon', 'PA': 'Pennsylvania', 'RI': 'Rhode Island', 'SC': 'South Carolina',
+    'SD': 'South Dakota', 'TN': 'Tennessee', 'TX': 'Texas', 'UT': 'Utah', 'VT': 'Vermont',
+    'VA': 'Virginia', 'WA': 'Washington', 'WV': 'West Virginia', 'WI': 'Wisconsin', 'WY': 'Wyoming'
+  };
+
+  const cities = {
+    'AL': ['Birmingham', 'Montgomery', 'Mobile', 'Huntsville'],
+    'AK': ['Anchorage', 'Fairbanks', 'Juneau', 'Sitka'],
+    'AZ': ['Phoenix', 'Tucson', 'Mesa', 'Chandler'],
+    'AR': ['Little Rock', 'Fort Smith', 'Fayetteville', 'Springdale'],
+    'CA': ['Los Angeles', 'San Diego', 'San Jose', 'San Francisco', 'Fresno', 'Sacramento'],
+    'CO': ['Denver', 'Colorado Springs', 'Aurora', 'Fort Collins'],
+    'CT': ['Bridgeport', 'New Haven', 'Hartford', 'Stamford'],
+    'DE': ['Wilmington', 'Dover', 'Newark', 'Middletown'],
+    'FL': ['Jacksonville', 'Miami', 'Tampa', 'Orlando', 'St. Petersburg'],
+    'GA': ['Atlanta', 'Columbus', 'Augusta', 'Savannah'],
+    'HI': ['Honolulu', 'Hilo', 'Kailua', 'Kaneohe'],
+    'ID': ['Boise', 'Meridian', 'Nampa', 'Idaho Falls'],
+    'IL': ['Chicago', 'Aurora', 'Peoria', 'Rockford'],
+    'IN': ['Indianapolis', 'Fort Wayne', 'Evansville', 'South Bend'],
+    'IA': ['Des Moines', 'Cedar Rapids', 'Davenport', 'Sioux City'],
+    'KS': ['Wichita', 'Overland Park', 'Kansas City', 'Topeka'],
+    'KY': ['Louisville', 'Lexington', 'Bowling Green', 'Owensboro'],
+    'LA': ['New Orleans', 'Baton Rouge', 'Shreveport', 'Lafayette'],
+    'ME': ['Portland', 'Lewiston', 'Bangor', 'South Portland'],
+    'MD': ['Baltimore', 'Frederick', 'Rockville', 'Gaithersburg'],
+    'MA': ['Boston', 'Worcester', 'Springfield', 'Lowell'],
+    'MI': ['Detroit', 'Grand Rapids', 'Warren', 'Sterling Heights'],
+    'MN': ['Minneapolis', 'St. Paul', 'Rochester', 'Duluth'],
+    'MS': ['Jackson', 'Gulfport', 'Southaven', 'Hattiesburg'],
+    'MO': ['Kansas City', 'St. Louis', 'Springfield', 'Columbia'],
+    'MT': ['Billings', 'Missoula', 'Great Falls', 'Bozeman'],
+    'NE': ['Omaha', 'Lincoln', 'Bellevue', 'Grand Island'],
+    'NV': ['Las Vegas', 'Henderson', 'Reno', 'North Las Vegas'],
+    'NH': ['Manchester', 'Nashua', 'Concord', 'Derry'],
+    'NJ': ['Newark', 'Jersey City', 'Paterson', 'Elizabeth'],
+    'NM': ['Albuquerque', 'Las Cruces', 'Rio Rancho', 'Santa Fe'],
+    'NY': ['New York City', 'Buffalo', 'Rochester', 'Yonkers', 'Syracuse'],
+    'NC': ['Charlotte', 'Raleigh', 'Greensboro', 'Durham'],
+    'ND': ['Fargo', 'Bismarck', 'Grand Forks', 'Minot'],
+    'OH': ['Columbus', 'Cleveland', 'Cincinnati', 'Toledo'],
+    'OK': ['Oklahoma City', 'Tulsa', 'Norman', 'Broken Arrow'],
+    'OR': ['Portland', 'Salem', 'Eugene', 'Gresham'],
+    'PA': ['Philadelphia', 'Pittsburgh', 'Allentown', 'Erie'],
+    'RI': ['Providence', 'Warwick', 'Cranston', 'Pawtucket'],
+    'SC': ['Columbia', 'Charleston', 'North Charleston', 'Mount Pleasant'],
+    'SD': ['Sioux Falls', 'Rapid City', 'Aberdeen', 'Brookings'],
+    'TN': ['Nashville', 'Memphis', 'Knoxville', 'Chattanooga'],
+    'TX': ['Houston', 'San Antonio', 'Dallas', 'Austin', 'Fort Worth', 'El Paso'],
+    'UT': ['Salt Lake City', 'West Valley City', 'Provo', 'West Jordan'],
+    'VT': ['Burlington', 'Essex', 'South Burlington', 'Colchester'],
+    'VA': ['Virginia Beach', 'Norfolk', 'Chesapeake', 'Richmond'],
+    'WA': ['Seattle', 'Spokane', 'Tacoma', 'Vancouver'],
+    'WV': ['Charleston', 'Huntington', 'Parkersburg', 'Morgantown'],
+    'WI': ['Milwaukee', 'Madison', 'Green Bay', 'Kenosha'],
+    'WY': ['Cheyenne', 'Casper', 'Laramie', 'Gillette']
+  };
+
+  const firstNames = ['John', 'Sarah', 'Mike', 'Lisa', 'David', 'Emily', 'Robert', 'Jennifer', 'Michael', 'Jessica', 'William', 'Ashley', 'James', 'Amanda', 'Christopher', 'Stephanie', 'Daniel', 'Melissa', 'Matthew', 'Nicole'];
+  const lastNames = ['Smith', 'Johnson', 'Williams', 'Brown', 'Jones', 'Garcia', 'Miller', 'Davis', 'Rodriguez', 'Martinez', 'Hernandez', 'Lopez', 'Gonzalez', 'Wilson', 'Anderson', 'Thomas', 'Taylor', 'Moore', 'Jackson', 'Martin'];
+  const territories = ['North', 'South', 'East', 'West', 'Central', 'Metro', 'Regional', 'District'];
+
+  const data: Record<string, StateData> = {};
+
+  allStates.forEach(state => {
+    const stateCities = cities[state] || ['Capital City', 'Major City'];
+    const repCount = Math.floor(Math.random() * 9) + 10; // 10-18 reps
+    const warehouseCount = Math.floor(Math.random() * 9) + 10; // 10-18 warehouses
+
+    // Generate reps
+    const reps: RepData[] = [];
+    for (let i = 0; i < repCount; i++) {
+      const firstName = firstNames[Math.floor(Math.random() * firstNames.length)];
+      const lastName = lastNames[Math.floor(Math.random() * lastNames.length)];
+      const territory = territories[Math.floor(Math.random() * territories.length)];
+      
+      reps.push({
+        name: `${firstName} ${lastName}`,
+        phone: `+1-${Math.floor(Math.random() * 900) + 100}-555-${String(Math.floor(Math.random() * 10000)).padStart(4, '0')}`,
+        email: `${firstName.toLowerCase()}.${lastName.toLowerCase()}@company.com`,
+        territory: `${territory} ${stateNames[state]}`
+      });
+    }
+
+    // Generate warehouses
+    const warehouses: WarehouseData[] = [];
+    for (let i = 0; i < warehouseCount; i++) {
+      const city = stateCities[Math.floor(Math.random() * stateCities.length)];
+      const warehouseTypes = ['Distribution Center', 'Warehouse', 'Fulfillment Center', 'Storage Facility'];
+      const warehouseType = warehouseTypes[Math.floor(Math.random() * warehouseTypes.length)];
+      const managerFirstName = firstNames[Math.floor(Math.random() * firstNames.length)];
+      const managerLastName = lastNames[Math.floor(Math.random() * lastNames.length)];
+      
+      warehouses.push({
+        name: `${city} ${warehouseType}`,
+        address: `${Math.floor(Math.random() * 9999) + 1} ${['Industrial', 'Commerce', 'Business', 'Corporate'][Math.floor(Math.random() * 4)]} ${['Blvd', 'Ave', 'St', 'Dr'][Math.floor(Math.random() * 4)]}`,
+        city: city,
+        state: state,
+        zip: String(Math.floor(Math.random() * 90000) + 10000),
+        phone: `+1-${Math.floor(Math.random() * 900) + 100}-555-${String(Math.floor(Math.random() * 10000)).padStart(4, '0')}`,
+        manager: `${managerFirstName} ${managerLastName}`
+      });
+    }
+
+    data[state] = { reps, warehouses };
+  });
+
+  return data;
 };
+
+const stateData = generateStateData();
 
 export const FindARepPage: React.FC = () => {
   const [selectedState, setSelectedState] = useState<string | null>(null);
@@ -262,7 +310,13 @@ export const FindARepPage: React.FC = () => {
               <USAMapComponent 
                 selectedState={selectedState}
                 onStateSelect={setSelectedState}
-                availableStates={Object.keys(stateData)}
+                availableStates={[
+                  'AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA',
+                  'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MD',
+                  'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ',
+                  'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC',
+                  'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY'
+                ]}
               />
             </Card>
           </div>

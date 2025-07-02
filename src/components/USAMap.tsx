@@ -38,12 +38,17 @@ export const USAMapComponent: React.FC<USAMapProps> = ({
       
       config[state] = {
         fill: isSelected 
-          ? 'hsl(var(--primary-foreground))' 
+          ? 'hsl(var(--primary))' 
           : isAvailable 
-            ? 'hsl(var(--primary))' 
-            : 'hsl(var(--gray-300))',
+            ? 'hsl(var(--primary) / 0.7)' 
+            : 'hsl(var(--muted))',
+        stroke: isSelected ? 'hsl(var(--primary-foreground))' : 'hsl(var(--border))',
+        strokeWidth: isSelected ? 2 : 1,
         clickHandler: mapHandler,
-        cursor: isAvailable ? 'pointer' : 'not-allowed'
+        cursor: isAvailable ? 'pointer' : 'default',
+        style: {
+          transition: 'all 0.3s ease-in-out'
+        }
       };
     });
 
